@@ -27,10 +27,17 @@ $(
         expect(allFeeds.length).not.toBe(0);
       });
 
-      it("it has a URL defined", function() {
+      it("have a URL defined", function() {
         for (let feed of allFeeds) {
           expect(feed.url).toBeDefined();
           expect(feed.url.length).not.toBe(0);
+        }
+      });
+
+      it("have a name defined", function() {
+        for (let feed of allFeeds) {
+          expect(feed.name).toBeDefined();
+          expect(feed.name.length).not.toBe(0);
         }
       });
 
@@ -43,6 +50,19 @@ $(
        * in the allFeeds object and ensures it has a name defined
        * and that the name is not empty.
        */
+    });
+
+    describe("The menu", function() {
+      it("is hidden by default", function() {
+        expect($("body").hasClass("menu-hidden")).toBe(true);
+      });
+
+      it("changes visibility when the menu icon is clicked", function() {
+        $(".menu-icon-link").click();
+        expect($("body").hasClass("menu-hidden")).toBe(false);
+        $(".menu-icon-link").click();
+        expect($("body").hasClass("menu-hidden")).toBe(true);
+      });
     });
 
     /* TODO: Write a new test suite named "The menu" */
@@ -59,6 +79,16 @@ $(
      * clicked and does it hide when clicked again.
      */
 
+    describe("Initial Entries", function() {
+      beforeEach(function(done) {
+        loadFeed(0, done);
+      });
+
+      it("there is at least a single .entry element", function() {
+        expect($(".feed .entry").length).not.toBe(0);
+      });
+    });
+
     /* TODO: Write a new test suite named "Initial Entries" */
 
     /* TODO: Write a test that ensures when the loadFeed
@@ -67,6 +97,25 @@ $(
      * Remember, loadFeed() is asynchronous so this test will require
      * the use of Jasmine's beforeEach and asynchronous done() function.
      */
+
+    describe("New Feed Selection", function() {
+      let oldFeed, newFeed;
+
+      beforeEach(function(done) {
+        loadFeed(0, done);
+      });
+      
+      it("the content actually changes", function(done) {
+        oldFeed = $(".feed").children()[0];
+        loadFeed(1, done);
+        done();
+      });
+      
+      afterEach(function() {
+        newFeed = $(".feed").children()[1];
+        expect(oldFeed).not.toEqual(newFeed);
+      });
+    });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
 
