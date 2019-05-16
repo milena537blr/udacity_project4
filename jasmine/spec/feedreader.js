@@ -108,7 +108,6 @@ $(
       it("the content actually changes", function(done) {
         oldFeed = $(".feed").children()[0];
         loadFeed(1, done);
-        done();
       });
       
       afterEach(function() {
